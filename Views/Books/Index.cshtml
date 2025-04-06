@@ -1,0 +1,27 @@
+﻿@* Index.cshtml *@
+@model IEnumerable<Bookstore_Group6.Models.Books>
+
+@{
+    ViewBag.Title = "Book List";
+}
+
+<h2>Book List</h2>
+
+@Html.Partial("_HolidayBanner")
+
+<p>
+    @Html.ActionLink("Create New", "Create", "Books", null, new { @class = "btn btn-primary" })
+</p>
+
+@Html.Partial("_SearchBar")
+
+<div class="row">
+    @foreach (var book in Model)
+    {
+        <div class="col-md-4">
+            @Html.Partial("_BookCard", book)
+        </div>
+    }
+</div>
+
+

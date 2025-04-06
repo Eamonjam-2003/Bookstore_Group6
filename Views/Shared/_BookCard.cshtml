@@ -1,0 +1,19 @@
+﻿@* _BookCard.cshtml *@
+@model Bookstore_Group6.Models.Books
+
+<div class="card mb-3">
+    <div class="card-body">
+        <h5 class="card-title">@Model.Name</h5>
+        <h6 class="card-subtitle mb-2 text-muted">by @Model.Author</h6>
+        <p class="card-text"><strong>Publisher:</strong> @Model.Publisher</p>
+        <p class="card-text"><strong>ISBN:</strong> @Model.ISBN</p>
+        <p class="card-text"><strong>Price:</strong> $@Model.Price</p>
+        <p class="card-text"><strong>Pages:</strong> @Model.Pages</p>
+        <p class="card-text">@Model.Description</p>
+        <div>
+            @Html.ActionLink("Edit", "Edit", "Books", new { id = Model.Id }, new { @class = "btn btn-warning btn-sm" })
+            @Html.ActionLink("Details", "Details", "Books", new { id = Model.Id }, new { @class = "btn btn-info btn-sm" })
+            @Html.ActionLink("Delete", "Delete", "Books", new { id = Model.Id }, new { @class = "btn btn-danger btn-sm" })
+        </div>
+    </div>
+</div>
