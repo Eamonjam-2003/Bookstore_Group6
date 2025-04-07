@@ -1,0 +1,59 @@
+﻿@model Bookstore_Group6.Models.Books
+
+@{
+    ViewBag.Title = "Buy Book";
+}
+
+<h2>Buy: @Model.Name</h2>
+
+<p><strong>Price:</strong> $@Model.Price</p>
+<p><strong>Author:</strong> @Model.Author</p>
+<p><strong>ISBN:</strong> @Model.ISBN</p>
+
+<hr />
+
+<h4>Payment Details</h4>
+
+@using (Html.BeginForm("CompleteBuy", "Books", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+
+    <!-- Hidden field for book id -->
+    <input type="hidden" name="id" value="@Model.Id" />
+
+    <div class="form-group">
+        <label for="FullName">Full Name on Card</label>
+        <input type="text" class="form-control" name="FullName" required />
+    </div>
+
+    <div class="form-group">
+        <label for="CardNumber">Card Number</label>
+        <input type="text" class="form-control" name="CardNumber" maxlength="16" pattern="\d{16}" placeholder="1234 5678 9012 3456" required />
+    </div>
+
+    <div class="form-row">
+        <div class="form-group col-md-6">
+            <label for="Expiry">Expiry Date</label>
+            <input type="month" class="form-control" name="Expiry" required />
+        </div>
+
+        <div class="form-group col-md-6">
+            <label for="CVV">CVV</label>
+            <input type="password" class="form-control" name="CVV" maxlength="4" required />
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="Email">Email for Confirmation</label>
+        <input type="email" class="form-control" name="Email" required />
+    </div>
+
+    <button type="submit" class="btn btn-success">Pay $@Model.Price</button>
+
+    <div>
+        @Html.ActionLink("Back", "Index", "Books", null, new { @class = "btn btn-secondary" })
+    </div>
+}
+
+
+

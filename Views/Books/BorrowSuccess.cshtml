@@ -1,0 +1,13 @@
+﻿@model Bookstore_Group6.Models.Books
+
+@{
+    ViewBag.Title = "Borrow Confirmed";
+}
+
+<div class="text-center mt-5">
+    <h2 class="text-info">📚 Borrowing Confirmed!</h2>
+    <p>You have successfully borrowed <strong>@Model.Name</strong> by @Model.Author.</p>
+    <p>Please return the book by the due date. Happy reading!</p>
+    <a href="@Url.Action("Index", "Books")" class="btn btn-primary mt-3">Go Back to Store</a>
+</div>
+

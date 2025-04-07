@@ -1,0 +1,21 @@
+﻿@model Bookstore_Group6.Models.Books
+
+@{
+    ViewBag.Title = "Borrow Book";
+}
+
+<h2>Borrow: @Model.Name</h2>
+
+<p><strong>Author:</strong> @Model.Author</p>
+<p><strong>ISBN:</strong> @Model.ISBN</p>
+<p>Please confirm you would like to borrow this book.</p>
+
+<form method="post" action="@Url.Action("CompleteBorrow", "Books", new { id = Model.Id })">
+    @Html.AntiForgeryToken()
+    <button type="submit" class="btn btn-primary">Confirm Borrow</button>
+</form>
+
+<div>
+    @Html.ActionLink("Back", "Index", "Books", null, new { @class = "btn btn-secondary" })
+</div>
+

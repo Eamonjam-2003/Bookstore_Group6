@@ -6,7 +6,6 @@ using System.Web;
 
 namespace Bookstore_Group6.Models
 {
-
     public class BuyerBorrower
     {
         public int Id { get; set; }
@@ -21,7 +20,7 @@ namespace Bookstore_Group6.Models
         public string Address { get; set; }
 
         [Required]
-        public string ClientType { get; set; } 
+        public string ClientType { get; set; } // "Buyer" or "Borrower"
 
         [Required, DataType(DataType.Date)]
         public DateTime DateOfBirth { get; set; }
@@ -29,7 +28,7 @@ namespace Bookstore_Group6.Models
         [Required, Phone]
         public string PhoneNumber { get; set; }
 
-        [Required, DataType(DataType.Password)]
         public string Password { get; set; }
+
     }
 }

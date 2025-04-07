@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Web;
 
 namespace Bookstore_Group6.Models
 {
@@ -33,5 +31,11 @@ namespace Bookstore_Group6.Models
 
         [StringLength(1000)]
         public string Description { get; set; }
+
+        [DefaultValue(false)]
+        public bool IsBorrowed { get; set; } // To check if the book is currently borrowed
+
+        [DefaultValue(false)]
+        public bool IsBought { get; set; }   // To check if the book is already bought
     }
 }

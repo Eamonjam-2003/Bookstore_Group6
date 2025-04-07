@@ -1,0 +1,13 @@
+﻿@model Bookstore_Group6.Models.Books
+
+@{
+    ViewBag.Title = "Purchase Successful";
+}
+
+<div class="text-center mt-5">
+    <h2 class="text-success">✅ Thank You for Your Purchase!</h2>
+    <p>You have successfully purchased <strong>@Model.Name</strong> by @Model.Author.</p>
+    <p>An email confirmation has been sent to your inbox.</p>
+    <a href="@Url.Action("Index", "Books")" class="btn btn-primary mt-3">Continue Browsing</a>
+</div>
+
