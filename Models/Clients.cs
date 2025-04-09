@@ -34,5 +34,11 @@ namespace Bookstore_Group6.Models
 
         [ForeignKey("BookId")]
         public virtual Books Book { get; set; }
+
+        [Required]
+        [DataType(DataType.Password)]
+        [StringLength(255)]
+        public string Password { get; set; }
+
     }
 }
