@@ -1,0 +1,68 @@
+﻿@model Bookstore_Group6.Models.Login
+
+@{
+    ViewBag.Title = "Login";
+}
+
+<h2>Login</h2>
+
+<div class="form-group">
+    @Html.LabelFor(m => m.Email)
+    @Html.TextBoxFor(m => m.Email, new { @class = "form-control", @id = "email" })
+    <span class="text-danger field-validation-valid" data-valmsg-for="Email" data-valmsg-replace="true"></span>
+</div>
+
+<div class="form-group">
+    @Html.LabelFor(m => m.Password)
+    @Html.PasswordFor(m => m.Password, new { @class = "form-control", @id = "password" })
+    <span class="text-danger field-validation-valid" data-valmsg-for="Password" data-valmsg-replace="true"></span>
+</div>
+
+<div class="form-group form-check">
+    @Html.CheckBoxFor(m => m.RememberMe, new { @class = "form-check-input", @id = "rememberMe" })
+    @Html.LabelFor(m => m.RememberMe, new { @class = "form-check-label" })
+</div>
+
+<button type="button" id="loginBtn" class="btn btn-primary">Login</button>
+
+<p>
+    @Html.ActionLink("Forgot your password?", "ForgotPassword", "BuyerBorrower")
+</p>
+
+<div id="loginResult" class="mt-2 text-danger"></div>
+
+@section Scripts {
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            $("#loginBtn").click(function () {
+                var email = $("#email").val();
+                var password = $("#password").val();
+                var rememberMe = $("#rememberMe").prop("checked");
+
+                $.ajax({
+                    url: '@Url.Action("LoginAjax", "BuyerBorrower")',
+                    type: 'POST',
+                    data: {
+                        Email: email,
+                        Password: password,
+                        RememberMe: rememberMe  // Sending RememberMe value
+                    },
+                    success: function (response) {
+                        if (response.success) {
+                            window.location.href = response.redirectUrl;
+                        } else {
+                            $("#loginResult").text(response.message);
+                        }
+                    },
+                    error: function () {
+                        $("#loginResult").text("An unexpected error occurred.");
+                    }
+                });
+            });
+        });
+    </script>
+}
+
+

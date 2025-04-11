@@ -1,0 +1,72 @@
+﻿@model IEnumerable<Bookstore_Group6.Models.BuyerBorrower>
+
+@{
+    ViewBag.Title = "Manage Users";
+}
+
+<h2>Manage Users</h2>
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Address</th>
+            <th>Client Type</th>
+            <th>Date of Birth</th>
+            <th>Phone Number</th>
+            <th>Role</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Name</td>
+                <td>@item.Email</td>
+                <td>@item.Address</td>
+                <td>@item.ClientType</td>
+                <td>@item.DateOfBirth.ToShortDateString()</td>
+                <td>@item.PhoneNumber</td>
+                <td>
+                    <select class="form-control" onchange="updateRole(@item.Id, this.value)">
+                        <option value="User" @(item.Role == "User" ? "selected" : "")>User</option>
+                        <option value="Admin" @(item.Role == "Admin" ? "selected" : "")>Admin</option>
+                    </select>
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                    @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+                    @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<div id="updateMessage" class="text-success mt-2"></div>
+
+@section Scripts {
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script>
+        function updateRole(id, newRole) {
+            $.ajax({
+                type: "POST",
+                url: "/BuyerBorrower/UpdateRole",
+                data: { id: id, role: newRole },
+                success: function (response) {
+                    if (response.success) {
+                        $('#updateMessage').text("Role updated successfully!");
+                    } else {
+                        $('#updateMessage').text("Error: " + response.message);
+                    }
+                },
+                error: function () {
+                    $('#updateMessage').text("An error occurred while updating the role.");
+                }
+            });
+        }
+    </script>
+}
+

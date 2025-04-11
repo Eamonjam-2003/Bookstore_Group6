@@ -157,6 +157,7 @@
     <Compile Include="Controllers\BuyerBorrowerController.cs" />
     <Compile Include="Controllers\ClientsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\TransactionsController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -165,6 +166,8 @@
     <Compile Include="Models\BuyerBorrower.cs" />
     <Compile Include="Models\Clients.cs" />
     <Compile Include="Models\ApplicationDbContext.cs" />
+    <Compile Include="Models\Login.cs" />
+    <Compile Include="Models\ResetPasswordViewModel.cs" />
     <Compile Include="Models\SearchHistory.cs" />
     <Compile Include="Models\Transactions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -255,8 +258,17 @@
     <Content Include="Views\Books\BorrowSuccess.cshtml" />
     <Content Include="Views\Books\AlreadyBorrowed.cshtml" />
     <Content Include="Views\Books\AlreadyBought.cshtml" />
+    <Content Include="Views\BuyerBorrower\Login.cshtml" />
+    <Content Include="Views\BuyerBorrower\LoginSuccess.cshtml" />
+    <Content Include="Views\BuyerBorrower\ManageRoles.cshtml" />
+    <Content Include="Views\BuyerBorrower\Index.cshtml" />
+    <Content Include="Views\BuyerBorrower\ForgotPassword.cshtml" />
+    <Content Include="Views\BuyerBorrower\ResetPassword.cshtml" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Views\Admin\" />
+    <Folder Include="Views\Login\" />
+  </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.rtl.min.css.map" />
     <Content Include="Content\bootstrap.rtl.css.map" />

@@ -30,5 +30,7 @@ namespace Bookstore_Group6.Models
 
         public string Password { get; set; }
 
+        public string Role { get; set; } = "User"; // Default role
+
     }
 }

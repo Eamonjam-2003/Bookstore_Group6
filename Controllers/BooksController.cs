@@ -19,12 +19,14 @@ namespace Bookstore_Group6.Controllers
             }
         }
 
+        [Authorize(Roles = "Admin")]
         // GET: Books/Create
         public ActionResult Create()
         {
             return View();
         }
 
+        [Authorize(Roles = "Admin")]
         // POST: Books/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -42,6 +44,7 @@ namespace Bookstore_Group6.Controllers
             return View(book);
         }
 
+        [Authorize(Roles = "Admin")]
         // GET: Books/Edit/5
         public ActionResult Edit(int id)
         {
@@ -56,6 +59,7 @@ namespace Bookstore_Group6.Controllers
             }
         }
 
+        [Authorize(Roles = "Admin")]
         // POST: Books/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -87,6 +91,7 @@ namespace Bookstore_Group6.Controllers
             }
         }
 
+        [Authorize(Roles = "Admin")]
         // GET: Books/Delete/5
         public ActionResult Delete(int id)
         {
@@ -101,6 +106,7 @@ namespace Bookstore_Group6.Controllers
             }
         }
 
+        [Authorize(Roles = "Admin")]
         // POST: Books/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]

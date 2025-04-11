@@ -10,7 +10,10 @@
 @Html.Partial("_HolidayBanner")
 
 <p>
-    @Html.ActionLink("Create New", "Create", "Books", null, new { @class = "btn btn-primary" })
+    @if (Session["UserRole"] != null && Session["UserRole"].ToString() == "Admin")
+    {
+        @Html.ActionLink("Create New", "Create", "Books", null, new { @class = "btn btn-primary" })
+    }
 </p>
 
 @Html.Partial("_SearchBar")
@@ -23,5 +26,7 @@
         </div>
     }
 </div>
+
+
 
 

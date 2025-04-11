@@ -13,7 +13,6 @@ namespace Bookstore_Group6.Models
         public ApplicationDbContext() :
         base("Bookstore")
         { }
-
         public DbSet<Bookstore_Group6.Models.Books> Books { get; set; }
         public DbSet<Bookstore_Group6.Models.Clients> Clients { get; set; }
         public DbSet<Bookstore_Group6.Models.Transactions> Transactions { get; set; }

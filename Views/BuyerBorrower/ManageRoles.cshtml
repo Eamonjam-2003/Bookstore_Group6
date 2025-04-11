@@ -1,0 +1,46 @@
+﻿@model List<Bookstore_Group6.Models.BuyerBorrower>
+
+<table class="table">
+    <tr>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Role</th>
+        <th>Change Role</th>
+    </tr>
+    @foreach (var user in Model)
+    {
+        <tr>
+            <td>@user.Name</td>
+            <td>@user.Email</td>
+            <td>@user.Role</td>
+            <td>
+                <select class="form-control role-dropdown" data-user-id="@user.Id">
+                    <option value="User" @(user.Role == "User" ? "selected" : "")>User</option>
+                    <option value="Admin" @(user.Role == "Admin" ? "selected" : "")>Admin</option>
+                </select>
+            </td>
+        </tr>
+    }
+</table>
+
+@section Scripts {
+    <script>
+        $(".role-dropdown").change(function () {
+            var userId = $(this).data("user-id");
+            var newRole = $(this).val();
+
+            $.ajax({
+                url: '@Url.Action("UpdateRole", "BuyerBorrower")',
+                type: 'POST',
+                data: { id: userId, role: newRole },
+                success: function (response) {
+                    alert(response.message);
+                },
+                error: function () {
+                    alert("Failed to update role.");
+                }
+            });
+        });
+    </script>
+}
+

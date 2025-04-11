@@ -55,6 +55,9 @@
         }
     </div>
 
+    <!-- Role hidden field -->
+    @Html.HiddenFor(model => model.Role, new { Value = "User" }) 
+
     <button type="submit" class="btn btn-primary">Sign Up</button>
 }
 

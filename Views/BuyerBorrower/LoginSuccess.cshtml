@@ -1,0 +1,10 @@
+﻿@model Bookstore_Group6.Models.BuyerBorrower
+
+@{
+    ViewBag.Title = "Login Success";
+}
+
+<h2>Welcome, @Model.Name!</h2>
+<p>Email: @Model.Email</p>
+
+<a href="@Url.Action("Index", "Books")">Start Exploring!</a>
