@@ -1,5 +1,4 @@
-﻿@* _BookCard.cshtml *@
-@model Bookstore_Group6.Models.Books
+﻿@model Bookstore_Group6.Models.Books
 
 <div class="card mb-3 shadow-sm p-3">
     <div class="card-body">
@@ -10,6 +9,28 @@
         <p class="card-text"><strong>Price:</strong> $@Model.Price</p>
         <p class="card-text"><strong>Pages:</strong> @Model.Pages</p>
         <p class="card-text">@Model.Description</p>
+
+        @if (!string.IsNullOrEmpty(Model.ImagePath))
+        {
+            <img src="@Url.Content(Model.ImagePath)" alt="Book Image" style="max-height: 200px;" class="img-fluid mb-2" />
+
+            <div>
+                <a href="@Url.Action("DownloadImage", "Books", new { fileName = System.IO.Path.GetFileName(Model.ImagePath) })"
+                   class="btn btn-outline-secondary btn-sm mt-2" download>
+                    <i class="bi bi-download"></i> Download Image
+                </a>
+            </div>
+
+            if (Session["UserRole"] != null && Session["UserRole"].ToString() == "Admin")
+            {
+                <form method="post" action="@Url.Action("DeleteImage", "Books", new { id = Model.Id })" style="display:inline;">
+                    @Html.AntiForgeryToken()
+                    <button type="submit" class="btn btn-danger btn-sm mt-2">
+                        <i class="bi bi-trash"></i> Delete Image
+                    </button>
+                </form>
+            }
+        }
 
         <div class="mt-3 d-flex flex-wrap gap-2">
             @if (Session["UserRole"] != null && Session["UserRole"].ToString() == "Admin")
@@ -24,5 +45,7 @@
         </div>
     </div>
 </div>
+
+
 
 

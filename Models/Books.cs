@@ -37,5 +37,9 @@ namespace Bookstore_Group6.Models
 
         [DefaultValue(false)]
         public bool IsBought { get; set; }   // To check if the book is already bought
+
+        [StringLength(255)]
+        public string ImagePath { get; set; }
+
     }
 }

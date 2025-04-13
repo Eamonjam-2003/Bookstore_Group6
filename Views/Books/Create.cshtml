@@ -6,15 +6,15 @@
 
 <h2>Create</h2>
 
-
-@using (Html.BeginForm()) 
+@using (Html.BeginForm("Create", "Books", FormMethod.Post, new { enctype = "multipart/form-data", id = "bookUploadForm" }))
 {
     @Html.AntiForgeryToken()
-    
+
     <div class="form-horizontal">
         <h4>Books</h4>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
         <div class="form-group">
             @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
@@ -72,8 +72,18 @@
         </div>
 
         <div class="form-group">
+            <label class="control-label col-md-2">Upload Image</label>
+            <div class="col-md-10">
+                <input type="file" name="uploadImage" class="form-control" id="uploadImage" />
+                <span class="text-muted">Allowed: .jpg, .jpeg, .png, .gif</span>
+            </div>
+        </div>
+
+        <div id="uploadStatus" class="text-info" style="display:none;">Uploading...</div>
+
+        <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-default" />
+                <input type="submit" value="Create" class="btn btn-primary" />
             </div>
         </div>
     </div>
@@ -85,4 +95,33 @@
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
+
+    <script>
+        $(document).ready(function () {
+            $('#bookUploadForm').on('submit', function (e) {
+                e.preventDefault();
+
+                var formData = new FormData(this);
+
+                $('#uploadStatus').show().text("Uploading...");
+
+                $.ajax({
+                    url: '@Url.Action("Create", "Books")',
+                    type: 'POST',
+                    data: formData,
+                    contentType: false,
+                    processData: false,
+                    success: function (response) {
+                        $('#uploadStatus').text("Upload successful! Redirecting...");
+                        // Redirect to index or show a message
+                        window.location.href = '@Url.Action("Index", "Books")';
+                    },
+                    error: function (xhr, status, error) {
+                        $('#uploadStatus').text("Error: " + xhr.responseText);
+                    }
+                });
+            });
+        });
+    </script>
 }
+

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -19,32 +20,89 @@ namespace Bookstore_Group6.Controllers
             }
         }
 
-        [Authorize(Roles = "Admin")]
         // GET: Books/Create
         public ActionResult Create()
         {
             return View();
         }
 
-        [Authorize(Roles = "Admin")]
         // POST: Books/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(Books book)
+        public ActionResult Create(Books book, HttpPostedFileBase uploadImage)
         {
             if (ModelState.IsValid)
             {
+                if (uploadImage != null && uploadImage.ContentLength > 0)
+                {
+                    // Validate image (optional)
+                    var allowedExtensions = new[] { ".jpg", ".jpeg", ".png", ".gif" };
+                    var ext = Path.GetExtension(uploadImage.FileName).ToLower();
+
+                    if (!allowedExtensions.Contains(ext))
+                    {
+                        ModelState.AddModelError("", "Only image files (.jpg, .jpeg, .png, .gif) are allowed.");
+                        return View(book);
+                    }
+
+                    // Ensure directory exists
+                    var uploadsFolder = Server.MapPath("~/Uploads/Books");
+                    if (!Directory.Exists(uploadsFolder))
+                    {
+                        Directory.CreateDirectory(uploadsFolder);
+                    }
+
+                    // Save image
+                    string fileName = Guid.NewGuid().ToString() + ext;
+                    string fullPath = Path.Combine(uploadsFolder, fileName);
+                    uploadImage.SaveAs(fullPath);
+
+                    book.ImagePath = "/Uploads/Books/" + fileName;
+                }
+
                 using (var db = new ApplicationDbContext())
                 {
                     db.Books.Add(book);
                     db.SaveChanges();
-                    return RedirectToAction("Index");
                 }
+
+                return RedirectToAction("Index");
             }
+
             return View(book);
         }
 
-        [Authorize(Roles = "Admin")]
+        // DELETE: Books/DeleteImage/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult DeleteImage(int id)
+        {
+            using (var db = new ApplicationDbContext())
+            {
+                var book = db.Books.Find(id);
+                if (book == null)
+                {
+                    return HttpNotFound();
+                }
+
+                // Get the full path to the image
+                var imagePath = Server.MapPath(book.ImagePath);
+
+                // Delete the file if it exists
+                if (System.IO.File.Exists(imagePath))
+                {
+                    System.IO.File.Delete(imagePath);
+                }
+
+                // Remove the image path from the database
+                book.ImagePath = null;
+                db.SaveChanges();
+            }
+
+            return RedirectToAction("Index");
+        }
+
+
         // GET: Books/Edit/5
         public ActionResult Edit(int id)
         {
@@ -59,7 +117,6 @@ namespace Bookstore_Group6.Controllers
             }
         }
 
-        [Authorize(Roles = "Admin")]
         // POST: Books/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -91,7 +148,6 @@ namespace Bookstore_Group6.Controllers
             }
         }
 
-        [Authorize(Roles = "Admin")]
         // GET: Books/Delete/5
         public ActionResult Delete(int id)
         {
@@ -106,7 +162,6 @@ namespace Bookstore_Group6.Controllers
             }
         }
 
-        [Authorize(Roles = "Admin")]
         // POST: Books/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
