@@ -2,32 +2,78 @@
     ViewBag.Title = "Home Page";
 }
 
-<main>
-    <section class="row" aria-labelledby="aspnetTitle">
-        <h1 id="title">ASP.NET</h1>
-        <p class="lead">ASP.NET is a free web framework for building great Web sites and Web applications using HTML, CSS and JavaScript.</p>
-        <p><a href="https://asp.net" class="btn btn-primary btn-md">Learn more &raquo;</a></p>
-    </section>
+@{
+    ViewBag.Title = "Home";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
 
-    <div class="row">
-        <section class="col-md-4" aria-labelledby="gettingStartedTitle">
-            <h2 id="gettingStartedTitle">Getting started</h2>
-            <p>
-                ASP.NET MVC gives you a powerful, patterns-based way to build dynamic websites that
-                enables a clean separation of concerns and gives you full control over markup
-                for enjoyable, agile development.
-            </p>
-            <p><a class="btn btn-outline-dark" href="https://go.microsoft.com/fwlink/?LinkId=301865">Learn more &raquo;</a></p>
-        </section>
-        <section class="col-md-4" aria-labelledby="librariesTitle">
-            <h2 id="librariesTitle">Get more libraries</h2>
-            <p>NuGet is a free Visual Studio extension that makes it easy to add, remove, and update libraries and tools in Visual Studio projects.</p>
-            <p><a class="btn btn-outline-dark" href="https://go.microsoft.com/fwlink/?LinkId=301866">Learn more &raquo;</a></p>
-        </section>
-        <section class="col-md-4" aria-labelledby="hostingTitle">
-            <h2 id="hostingTitle">Web Hosting</h2>
-            <p>You can easily find a web hosting company that offers the right mix of features and price for your applications.</p>
-            <p><a class="btn btn-outline-dark" href="https://go.microsoft.com/fwlink/?LinkId=301867">Learn more &raquo;</a></p>
-        </section>
+@*Animation library*@
+<link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+
+
+@*Banner*@
+<div style="width: 100%; margin: 0; padding: 0;">
+    <div style="background-image: url('https://wallpaperaccess.com/full/922690.jpg'); background-size: cover; background-position: center; height: 90vh; display: flex; align-items: center; justify-content: center; text-align: center; color: white; position: relative; ">
+        <div style="background: rgba(0, 0, 0, 0.6); padding: 40px; border-radius: 15px;" data-aos="fade-down">
+            <h1 style="font-size: 4rem; margin-bottom: 20px;">Welcome to <span style="color: #8b5e3c;"> Book Haven</span></h1>
+            <p style="font-size: 1.5rem; margin-bottom: 30px;">Discover New Adventures Between Pages</p>
+            <a href="/Books/Index" class="btn btn-lg" style="background-color: #8b5e3c; border: none; padding: 15px 30px; font-size: 1.2rem; border-radius: 5px;">Shop Now</a>
+        </div>
     </div>
-</main>
+</div>
+
+@*Feature Cards Section*@
+<div class="container text-center" style="margin-top: 60px;">
+    <h2 data-aos="fade-up">Explore Our Collection</h2>
+    <div class="row" style="margin-top: 40px;">
+        <div class="col-md-4 d-flex align-items-stretch" data-aos="zoom-in">
+            <div class="card shadow-sm" style="border-radius: 15px; width: 100%;">
+                <img src="https://i.pinimg.com/originals/9d/f0/82/9df0827d1bb7afb2f379f88f2250e32e.jpg" class="card-img-top" style="height: 250px; object-fit: cover; border-top-left-radius: 15px; border-top-right-radius: 15px;">
+                <div class="card-body d-flex flex-column">
+                    <h5 class="card-title">Best Sellers</h5>
+                    <p class="card-text">Check out the books everyone is raving about!</p>
+                    <div class="mt-auto">
+                        <a href="/Books/Index" class="btn btn-outline-dark">See More</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4 d-flex align-items-stretch" data-aos="zoom-in" data-aos-delay="150">
+            <div class="card shadow-sm" style="border-radius: 15px; width: 100%;">
+                <img src="https://i.pinimg.com/736x/4d/12/bf/4d12bf6e67d4f4eea3d60dcbca470d71.jpg" class="card-img-top" style="height: 250px; object-fit: cover; border-top-left-radius: 15px; border-top-right-radius: 15px;">
+                <div class="card-body d-flex flex-column">
+                    <h5 class="card-title">Login</h5>
+                    <p class="card-text">Login! Discover the latest releases.</p>
+                    <div class="mt-auto">
+                        <a href="/BuyerBorrower/Login" class="btn btn-outline-dark">Login</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4 d-flex align-items-stretch" data-aos="zoom-in" data-aos-delay="300">
+            <div class="card shadow-sm" style="border-radius: 15px; width: 100%;">
+                <img src="https://i.pinimg.com/originals/9d/90/15/9d9015f39345af61d7ed1427796e404a.jpg" class="card-img-top" style="height: 250px; object-fit: cover; border-top-left-radius: 15px; border-top-right-radius: 15px;">
+                <div class="card-body d-flex flex-column">
+                    <h5 class="card-title">Sign Up</h5>
+                    <p class="card-text">Need a good read? Sign Up with us today!</p>
+                    <div class="mt-auto">
+                        <a href="/BuyerBorrower/SignUp" class="btn btn-outline-dark">Sign Up</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@*Animation Scripts*@
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script>
+    AOS.init({
+        duration: 1000,
+        once: true
+    });
+</script>

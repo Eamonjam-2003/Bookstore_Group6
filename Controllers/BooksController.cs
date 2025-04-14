@@ -4,12 +4,14 @@ using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Bookstore_Group6.Filters;
 using Bookstore_Group6.Models;
 
 namespace Bookstore_Group6.Controllers
 {
     public class BooksController : Controller
     {
+        [LoggedInOnly]
         // GET: Books
         public ActionResult Index()
         {
@@ -21,12 +23,16 @@ namespace Bookstore_Group6.Controllers
         }
 
         // GET: Books/Create
+        [LoggedInOnly]
+        [AdminOnly]
         public ActionResult Create()
         {
             return View();
         }
 
         // POST: Books/Create
+        [LoggedInOnly]
+        [AdminOnly]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create(Books book, HttpPostedFileBase uploadImage)
@@ -35,7 +41,7 @@ namespace Bookstore_Group6.Controllers
             {
                 if (uploadImage != null && uploadImage.ContentLength > 0)
                 {
-                    // Validate image (optional)
+                    // Validate image
                     var allowedExtensions = new[] { ".jpg", ".jpeg", ".png", ".gif" };
                     var ext = Path.GetExtension(uploadImage.FileName).ToLower();
 
@@ -73,6 +79,8 @@ namespace Bookstore_Group6.Controllers
         }
 
         // DELETE: Books/DeleteImage/5
+        [LoggedInOnly]
+        [AdminOnly]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteImage(int id)
@@ -102,7 +110,8 @@ namespace Bookstore_Group6.Controllers
             return RedirectToAction("Index");
         }
 
-
+        [LoggedInOnly]
+        [AdminOnly]
         // GET: Books/Edit/5
         public ActionResult Edit(int id)
         {
@@ -116,7 +125,8 @@ namespace Bookstore_Group6.Controllers
                 return View(book);
             }
         }
-
+        [LoggedInOnly]
+        [AdminOnly]
         // POST: Books/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -147,7 +157,8 @@ namespace Bookstore_Group6.Controllers
                 return View(book);
             }
         }
-
+        [LoggedInOnly]
+        [AdminOnly]
         // GET: Books/Delete/5
         public ActionResult Delete(int id)
         {
@@ -161,7 +172,8 @@ namespace Bookstore_Group6.Controllers
                 return View(book);
             }
         }
-
+        [LoggedInOnly]
+        [AdminOnly]
         // POST: Books/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
@@ -330,7 +342,6 @@ namespace Bookstore_Group6.Controllers
                     return HttpNotFound();
                 }
 
-                // You can pass the book to the Borrow view
                 return View(book);
             }
         }
@@ -391,6 +402,23 @@ namespace Bookstore_Group6.Controllers
                 return RedirectToAction("BorrowSuccess", new { id = id });
             }
         }
+
+        // GET: Books/BorrowSuccess/5
+        public ActionResult BorrowSuccess(int id)
+        {
+            using (var db = new ApplicationDbContext())
+            {
+                var book = db.Books.FirstOrDefault(b => b.Id == id);
+
+                if (book == null)
+                {
+                    return HttpNotFound();
+                }
+
+                return View(book);
+            }
+        }
+
 
 
         // GET: Books/AlreadyBorrowed/5

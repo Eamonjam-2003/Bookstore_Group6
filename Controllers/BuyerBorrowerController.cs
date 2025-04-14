@@ -37,7 +37,7 @@ namespace Bookstore_Group6.Controllers
                     model.Role = "User"; 
                 }
 
-                // Hash the password securely
+                // Hash the password
                 using (var sha256 = SHA256.Create())
                 {
                     byte[] hashBytes = sha256.ComputeHash(Encoding.UTF8.GetBytes(plainPassword));
@@ -52,7 +52,6 @@ namespace Bookstore_Group6.Controllers
                 return RedirectToAction("Success", new { id = model.Id });
             }
 
-            // Optional debug logging for ModelState errors
             foreach (var key in ModelState.Keys)
             {
                 var errors = ModelState[key].Errors;
@@ -133,7 +132,7 @@ namespace Bookstore_Group6.Controllers
                         }
                         else
                         {
-                            // Otherwise, store user info in session
+                            // store user info in session
                             Session["UserId"] = user.Id;
                             Session["UserEmail"] = user.Email;
                             Session["UserName"] = user.Name;
@@ -182,7 +181,7 @@ namespace Bookstore_Group6.Controllers
                         }
                         else
                         {
-                            // Otherwise, store user info in session
+                            //store user info in session
                             Session["UserId"] = user.Id;
                             Session["UserEmail"] = user.Email;
                             Session["UserName"] = user.Name;
@@ -214,9 +213,25 @@ namespace Bookstore_Group6.Controllers
 
         public ActionResult Logout()
         {
+            // Clear all session data
             Session.Clear();
+            Session.Abandon();
+
+            // Expire the persistent login cookie if it exists
+            if (Request.Cookies["UserInfo"] != null)
+            {
+                var expiredCookie = new HttpCookie("UserInfo")
+                {
+                    Expires = DateTime.Now.AddDays(-1), // Expire the cookie
+                    HttpOnly = true,
+                    Secure = Request.IsSecureConnection // Optional: match cookie settings
+                };
+                Response.Cookies.Add(expiredCookie); // Overwrite the cookie to clear it
+            }
+
             return RedirectToAction("Login");
         }
+
 
         [HttpPost]
         public JsonResult UpdateRole(int id, string role)
@@ -262,7 +277,6 @@ namespace Bookstore_Group6.Controllers
                 var user = db.BuyerBorrowers.FirstOrDefault(u => u.Email == model.Email);
                 if (user != null)
                 {
-                    // Debug log to confirm user lookup
                     System.Diagnostics.Debug.WriteLine("✅ Found user: " + user.Email);
 
                     // Create a simple reset link

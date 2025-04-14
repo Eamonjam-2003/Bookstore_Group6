@@ -5,27 +5,59 @@
     ViewBag.Title = "Book List";
 }
 
-<h2>Book List</h2>
-
-@Html.Partial("_HolidayBanner")
-
-<p>
-    @if (Session["UserRole"] != null && Session["UserRole"].ToString() == "Admin")
-    {
-        @Html.ActionLink("Create New", "Create", "Books", null, new { @class = "btn btn-primary" })
+<!-- Custom Styles -->
+<style>
+    body {
+        background-image: url('/Uploads/Books/Bookstore background.jpg');
+        background-size: cover;
+        background-attachment: fixed;
+        background-position: center;
+        background-repeat: no-repeat;
+        margin: 0;
+        padding: 0;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     }
-</p>
 
-@Html.Partial("_SearchBar")
-
-<div class="row">
-    @foreach (var book in Model)
-    {
-        <div class="col-md-4">
-            @Html.Partial("_BookCard", book)
-        </div>
+    .overlay-container {
+        background-color: rgba(255, 255, 255, 0.85); /* transparent white */
+        padding: 30px;
+        margin: 30px auto;
+        border-radius: 15px;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+        max-width: 1200px;
     }
+
+    .book-header {
+        text-align: center;
+        color: #333;
+        margin-bottom: 20px;
+    }
+</style>
+
+<div class="overlay-container">
+    <h2 class="book-header">Book List</h2>
+
+    @Html.Partial("_HolidayBanner")
+
+    <p>
+        @if (Session["UserRole"] != null && Session["UserRole"].ToString() == "Admin")
+        {
+            @Html.ActionLink("Create New", "Create", "Books", null, new { @class = "btn btn-primary" })
+        }
+    </p>
+
+    @Html.Partial("_SearchBar")
+
+    <div class="row">
+        @foreach (var book in Model)
+        {
+            <div class="col-md-4">
+                @Html.Partial("_BookCard", book)
+            </div>
+        }
+    </div>
 </div>
+
 
 
 

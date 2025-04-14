@@ -153,12 +153,15 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\BooksController.cs" />
     <Compile Include="Controllers\BuyerBorrowerController.cs" />
     <Compile Include="Controllers\ClientsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\TransactionsController.cs" />
+    <Compile Include="Filters\AdminOnlyAttribite.cs" />
+    <Compile Include="Filters\LoggedInOnly.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -216,6 +219,7 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
     <Content Include="Uploads\Books\Ballad-of-songbirds-and-snakes.jpg" />
+    <Content Include="Uploads\Books\Bookstore background.jpg" />
     <Content Include="Uploads\Books\SunriseontheReaping-3D.jpg" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
@@ -266,9 +270,10 @@
     <Content Include="Views\BuyerBorrower\Index.cshtml" />
     <Content Include="Views\BuyerBorrower\ForgotPassword.cshtml" />
     <Content Include="Views\BuyerBorrower\ResetPassword.cshtml" />
+    <Content Include="Views\Admin\AdminDashboard.cshtml" />
+    <Content Include="Views\Home\AccessDenied.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Views\Admin\" />
     <Folder Include="Views\Login\" />
   </ItemGroup>
   <ItemGroup>
