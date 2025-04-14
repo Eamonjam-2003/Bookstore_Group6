@@ -1,62 +1,137 @@
-﻿@model Tuple<List<Bookstore_Group6.Models.BuyerBorrower>, List<Bookstore_Group6.Models.Clients>>
+﻿@model Tuple<List<Bookstore_Group6.Models.BuyerBorrower>, List<Bookstore_Group6.Models.Clients>, List<Bookstore_Group6.Models.Books>, List<Bookstore_Group6.Models.Transactions>>
 
 @{
     ViewBag.Title = "Admin Dashboard";
 }
 
-<h2>Admin Dashboard</h2>
+<h2 class="mt-4 mb-3">Admin Dashboard</h2>
 
-<h3>Buyer & Borrowers</h3>
-<table class="table">
-    <tr>
-        <th>Name</th>
-        <th>Email</th>
-        <th>Client Type</th>
-        <th>Role</th>
-        <th>Actions</th>
-    </tr>
-    @foreach (var user in Model.Item1)
-    {
+<!-- USERS SECTION -->
+<h3 class="mt-4">Users (Buyers, Borrowers, Sellers)</h3>
+<input type="text" id="userSearch" placeholder="Search Users..." class="form-control mb-2" />
+<table class="table table-striped table-bordered" id="usersTable">
+    <thead>
         <tr>
-            <td>@user.Name</td>
-            <td>@user.Email</td>
-            <td>@user.ClientType</td>
-            <td>@user.Role</td>
-            <td>
-                @using (Html.BeginForm("DeleteBuyer", "Admin", FormMethod.Post))
-                {
-                    @Html.Hidden("id", user.Id)
-                    <button class="btn btn-danger" type="submit">Delete</button>
-                }
-            </td>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Phone</th>
+            <th>Address</th>
+            <th>Client Type</th>
+            <th>Role</th>
+            <th>Action</th>
         </tr>
-    }
+    </thead>
+    <tbody>
+        @foreach (var user in Model.Item1)
+        {
+            <tr>
+                <td>@user.Name</td>
+                <td>@user.Email</td>
+                <td>@user.PhoneNumber</td>
+                <td>@user.Address</td>
+                <td>@user.ClientType</td>
+                <td>@user.Role</td>
+                <td>
+                    @using (Html.BeginForm("DeleteBuyer", "Admin", FormMethod.Post))
+                    {
+                        @Html.Hidden("id", user.Id)
+                        <button class="btn btn-sm btn-danger">Delete</button>
+                    }
+                </td>
+            </tr>
+        }
+        @foreach (var client in Model.Item2)
+        {
+            <tr>
+                <td>@client.Name</td>
+                <td>@client.Email</td>
+                <td>@client.PhoneNumber</td>
+                <td>@client.Address</td>
+                <td>Seller</td>
+                <td>Seller</td>
+                <td>
+                    @using (Html.BeginForm("DeleteClient", "Admin", FormMethod.Post))
+                    {
+                        @Html.Hidden("id", client.Id)
+                        <button class="btn btn-sm btn-danger">Delete</button>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
 </table>
 
-<h3>Clients</h3>
-<table class="table">
-    <tr>
-        <th>Name</th>
-        <th>Email</th>
-        <th>Phone</th>
-        <th>Address</th>
-        <th>Actions</th>
-    </tr>
-    @foreach (var client in Model.Item2)
-    {
+<!-- BOOKS SECTION -->
+<h3 class="mt-5">Books</h3>
+<input type="text" id="bookSearch" placeholder="Search Books..." class="form-control mb-2" />
+<table class="table table-striped table-bordered" id="booksTable">
+    <thead>
         <tr>
-            <td>@client.Name</td>
-            <td>@client.Email</td>
-            <td>@client.PhoneNumber</td>
-            <td>@client.Address</td>
-            <td>
-                @using (Html.BeginForm("DeleteClient", "Admin", FormMethod.Post))
-                {
-                    @Html.Hidden("id", client.Id)
-                    <button class="btn btn-danger" type="submit">Delete</button>
-                }
-            </td>
+            <th>Name</th>
+            <th>Author</th>
+            <th>ISBN</th>
+            <th>Price</th>
+            <th>Borrowed?</th>
+            <th>Bought?</th>
         </tr>
-    }
+    </thead>
+    <tbody>
+        @foreach (var book in Model.Item3)
+        {
+            <tr>
+                <td>@book.Name</td>
+                <td>@book.Author</td>
+                <td>@book.ISBN</td>
+                <td>$@book.Price</td>
+                <td>@(book.IsBorrowed ? "Yes" : "No")</td>
+                <td>@(book.IsBought ? "Yes" : "No")</td>
+            </tr>
+        }
+    </tbody>
 </table>
 
+<!-- TRANSACTIONS SECTION -->
+<h3 class="mt-5">Transactions</h3>
+<input type="text" id="transactionSearch" placeholder="Search Transactions..." class="form-control mb-2" />
+<table class="table table-striped table-bordered" id="transactionsTable">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Client ID</th>
+            <th>Book ID</th>
+            <th>Date</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var tx in Model.Item4)
+        {
+            <tr>
+                <td>@tx.Id</td>
+                <td>@tx.ClientId</td>
+                <td>@tx.BookId</td>
+                <td>@tx.Date.ToShortDateString()</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@section Scripts {
+    <script>
+        function filterTable(inputId, tableId) {
+            const input = document.getElementById(inputId);
+            const filter = input.value.toLowerCase();
+            const table = document.getElementById(tableId);
+            const trs = table.getElementsByTagName("tr");
+
+            for (let i = 1; i < trs.length; i++) {
+                const row = trs[i];
+                const text = row.textContent.toLowerCase();
+                row.style.display = text.includes(filter) ? "" : "none";
+            }
+        }
+
+        document.getElementById("userSearch").addEventListener("input", () => filterTable("userSearch", "usersTable"));
+        document.getElementById("bookSearch").addEventListener("input", () => filterTable("bookSearch", "booksTable"));
+        document.getElementById("transactionSearch").addEventListener("input", () => filterTable("transactionSearch", "transactionsTable"));
+    </script>
+}

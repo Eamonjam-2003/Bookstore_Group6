@@ -10,12 +10,14 @@ namespace Bookstore_Group6.Controllers
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
-        // [Authorize(Roles = "Admin")] // Uncomment this once login is working
         public ActionResult AdminDashboard()
         {
             var buyers = db.BuyerBorrowers.ToList();
             var clients = db.Clients.ToList();
-            return View(Tuple.Create(buyers, clients));
+            var books = db.Books.ToList();
+            var transactions = db.Transactions.ToList();
+
+            return View(Tuple.Create(buyers, clients, books, transactions));
         }
 
         [HttpPost]
