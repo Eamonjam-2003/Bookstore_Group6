@@ -266,6 +266,10 @@
     <Content Include="Views\BuyerBorrower\Index.cshtml" />
     <Content Include="Views\BuyerBorrower\ForgotPassword.cshtml" />
     <Content Include="Views\BuyerBorrower\ResetPassword.cshtml" />
+    <Content Include="Views\Clients\ClientDashboard.cshtml" />
+    <Content Include="Views\Clients\Success.cshtml" />
+    <Content Include="Views\Clients\Login.cshtml" />
+    <Content Include="Views\Clients\SignUp.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Views\Admin\" />

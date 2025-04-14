@@ -1,0 +1,38 @@
+﻿@model Bookstore_Group6.Models.Clients
+
+@{
+    ViewBag.Title = "Client Dashboard";
+    var books = ViewBag.Books as List<Bookstore_Group6.Models.Books>;
+}
+
+<h2>Welcome, @Model.Name!</h2>
+
+<p>
+    @Html.ActionLink("Create New Book", "Create", "Books", new { }, new { @class = "btn btn-success" })
+</p>
+
+<table class="table">
+    <tr>
+        <th>@Html.DisplayNameFor(m => books.First().Name)</th>
+        <th>@Html.DisplayNameFor(m => books.First().Author)</th>
+        <th>@Html.DisplayNameFor(m => books.First().Publisher)</th>
+        <th>@Html.DisplayNameFor(m => books.First().Price)</th>
+        <th>@Html.DisplayNameFor(m => books.First().ISBN)</th>
+        <th>Actions</th>
+    </tr>
+
+    @foreach (var book in books)
+    {
+        <tr>
+            <td>@book.Name</td>
+            <td>@book.Author</td>
+            <td>@book.Publisher</td>
+            <td>@book.Price</td>
+            <td>@book.ISBN</td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", "Books", new { id = book.Id }, new { @class = "btn btn-primary btn-sm" }) |
+                @Html.ActionLink("Delete", "Delete", "Books", new { id = book.Id }, new { @class = "btn btn-danger btn-sm" })
+            </td>
+        </tr>
+    }
+</table>

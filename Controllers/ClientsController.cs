@@ -118,5 +118,80 @@ namespace Bookstore_Group6.Controllers
                 return RedirectToAction("Index");
             }
         }
+
+        // GET: Clients/SignUp
+        public ActionResult SignUp()
+        {
+            return View();
+        }
+
+        // POST: Clients/SignUp
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult SignUp(Clients client)
+        {
+            if (ModelState.IsValid)
+            {
+                using (var db = new ApplicationDbContext())
+                {
+                    db.Clients.Add(client);
+                    db.SaveChanges();
+                    return RedirectToAction("ClientDashboard", new { id = client.Id });
+
+                }
+            }
+            return View(client);
+        }
+
+        // GET: Clients/Success
+        public ActionResult Success()
+        {
+            return View();
+        }
+
+        // GET: Clients/ClientDashboard
+        public ActionResult ClientDashboard(int id)
+        {
+            using (var db = new ApplicationDbContext())
+            {
+                var client = db.Clients.Find(id);
+                if (client == null)
+                {
+                    return HttpNotFound();
+                }
+
+                var books = db.Books.ToList();
+                ViewBag.Books = books;
+
+                return View(client); // This will pass the client model to the view
+            }
+        }
+
+        // GET: Clients/Login
+        public ActionResult Login()
+        {
+            return View();
+        }
+
+        // POST: Clients/Login
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Login(string email, string password)
+        {
+            using (var db = new ApplicationDbContext())
+            {
+                var client = db.Clients.FirstOrDefault(c => c.Email == email && c.Password == password);
+                if (client != null)
+                {
+                    // Store ID in TempData or Session (depending on your needs)
+                    TempData["ClientId"] = client.Id;
+                    return RedirectToAction("ClientDashboard", new { id = client.Id });
+                }
+
+                ViewBag.Error = "Invalid email or password.";
+                return View();
+            }
+        }
+
     }
 }
