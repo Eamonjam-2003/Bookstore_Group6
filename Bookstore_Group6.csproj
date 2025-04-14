@@ -153,6 +153,7 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\BooksController.cs" />
     <Compile Include="Controllers\BuyerBorrowerController.cs" />
     <Compile Include="Controllers\ClientsController.cs" />
@@ -270,9 +271,9 @@
     <Content Include="Views\Clients\Success.cshtml" />
     <Content Include="Views\Clients\Login.cshtml" />
     <Content Include="Views\Clients\SignUp.cshtml" />
+    <Content Include="Views\Admin\AdminDashboard.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Views\Admin\" />
     <Folder Include="Views\Login\" />
   </ItemGroup>
   <ItemGroup>
