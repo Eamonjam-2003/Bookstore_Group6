@@ -1,0 +1,2 @@
+﻿ALTER TABLE [dbo].[Client]
+ADD [Password] NVARCHAR(255) NOT NULL DEFAULT('');

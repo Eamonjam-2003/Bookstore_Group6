@@ -1,4 +1,4 @@
-﻿﻿@model Tuple<List<Bookstore_Group6.Models.BuyerBorrower>, List<Bookstore_Group6.Models.Clients>, List<Bookstore_Group6.Models.Books>, List<Bookstore_Group6.Models.Transactions>>
+﻿@model Tuple<List<Bookstore_Group6.Models.BuyerBorrower>, List<Bookstore_Group6.Models.Clients>, List<Bookstore_Group6.Models.Books>, List<Bookstore_Group6.Models.Transactions>>
 
 @{
     ViewBag.Title = "Admin Dashboard";
@@ -18,10 +18,11 @@
             <th>Address</th>
             <th>Client Type</th>
             <th>Role</th>
-            <th>Action</th>
+            <th>Change Role</th>
+            <th>Delete</th>
         </tr>
     </thead>
-    <tbody>
+    <tbody id="usersBody">
         @foreach (var user in Model.Item1)
         {
             <tr>
@@ -31,6 +32,12 @@
                 <td>@user.Address</td>
                 <td>@user.ClientType</td>
                 <td>@user.Role</td>
+                <td>
+                    <select class="form-control role-dropdown" data-user-id="@user.Id">
+                        <option value="User" @(user.Role == "User" ? "selected" : "")>User</option>
+                        <option value="Admin" @(user.Role == "Admin" ? "selected" : "")>Admin</option>
+                    </select>
+                </td>
                 <td>
                     @using (Html.BeginForm("DeleteBuyer", "Admin", FormMethod.Post))
                     {
@@ -49,6 +56,7 @@
                 <td>@client.Address</td>
                 <td>Seller</td>
                 <td>Seller</td>
+                <td>N/A</td>
                 <td>
                     @using (Html.BeginForm("DeleteClient", "Admin", FormMethod.Post))
                     {
@@ -60,6 +68,7 @@
         }
     </tbody>
 </table>
+<div id="usersPagination" class="pagination mb-4"></div>
 
 <!-- BOOKS SECTION -->
 <h3 class="mt-5">Books</h3>
@@ -75,7 +84,7 @@
             <th>Bought?</th>
         </tr>
     </thead>
-    <tbody>
+    <tbody id="booksBody">
         @foreach (var book in Model.Item3)
         {
             <tr>
@@ -89,6 +98,7 @@
         }
     </tbody>
 </table>
+<div id="booksPagination" class="pagination mb-4"></div>
 
 <!-- TRANSACTIONS SECTION -->
 <h3 class="mt-5">Transactions</h3>
@@ -102,7 +112,7 @@
             <th>Date</th>
         </tr>
     </thead>
-    <tbody>
+    <tbody id="transactionsBody">
         @foreach (var tx in Model.Item4)
         {
             <tr>
@@ -114,24 +124,66 @@
         }
     </tbody>
 </table>
+<div id="transactionsPagination" class="pagination mb-4"></div>
 
 @section Scripts {
     <script>
-        function filterTable(inputId, tableId) {
-            const input = document.getElementById(inputId);
-            const filter = input.value.toLowerCase();
+        function setupPagination(tableId, paginationId, rowsPerPage) {
             const table = document.getElementById(tableId);
-            const trs = table.getElementsByTagName("tr");
+            const rows = table.querySelectorAll("tbody tr");
+            const pagination = document.getElementById(paginationId);
+            const totalPages = Math.ceil(rows.length / rowsPerPage);
 
-            for (let i = 1; i < trs.length; i++) {
-                const row = trs[i];
-                const text = row.textContent.toLowerCase();
-                row.style.display = text.includes(filter) ? "" : "none";
+            pagination.innerHTML = "";
+
+            for (let i = 0; i < totalPages; i++) {
+                const btn = document.createElement("button");
+                btn.innerText = i + 1;
+                btn.className = "btn btn-sm btn-outline-primary mx-1";
+                btn.onclick = () => {
+                    rows.forEach((row, index) => {
+                        row.style.display = (index >= i * rowsPerPage && index < (i + 1) * rowsPerPage) ? "" : "none";
+                    });
+                };
+                pagination.appendChild(btn);
             }
+
+            if (pagination.children.length > 0) pagination.children[0].click();
         }
 
-        document.getElementById("userSearch").addEventListener("input", () => filterTable("userSearch", "usersTable"));
-        document.getElementById("bookSearch").addEventListener("input", () => filterTable("bookSearch", "booksTable"));
-        document.getElementById("transactionSearch").addEventListener("input", () => filterTable("transactionSearch", "transactionsTable"));
+        function setupSearch(inputId, tableId) {
+            document.getElementById(inputId).addEventListener("input", function () {
+                const filter = this.value.toLowerCase();
+                const rows = document.getElementById(tableId).querySelectorAll("tbody tr");
+                rows.forEach(row => {
+                    const match = row.textContent.toLowerCase().includes(filter);
+                    row.style.display = match ? "" : "none";
+                });
+            });
+        }
+
+        setupPagination("usersTable", "usersPagination", 10);
+        setupPagination("booksTable", "booksPagination", 10);
+        setupPagination("transactionsTable", "transactionsPagination", 10);
+
+        setupSearch("userSearch", "usersTable");
+        setupSearch("bookSearch", "booksTable");
+        setupSearch("transactionSearch", "transactionsTable");
+
+        $(".role-dropdown").change(function () {
+            const userId = $(this).data("user-id");
+            const newRole = $(this).val();
+            $.ajax({
+                url: '@Url.Action("UpdateRole", "BuyerBorrower")',
+                type: 'POST',
+                data: { id: userId, role: newRole },
+                success: function (response) {
+                    alert(response.message);
+                },
+                error: function () {
+                    alert("Failed to update role.");
+                }
+            });
+        });
     </script>
 }

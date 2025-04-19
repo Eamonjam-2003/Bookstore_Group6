@@ -11,43 +11,43 @@
     @Html.AntiForgeryToken()
 
     <div class="form-group">
-        @Html.LabelFor(model => model.Name, new { @class = "control-label" })
+        @Html.LabelFor(model => model.Name)
         @Html.TextBoxFor(model => model.Name, new { @class = "form-control" })
         @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
     </div>
 
     <div class="form-group">
-        @Html.LabelFor(model => model.Email, new { @class = "control-label" })
+        @Html.LabelFor(model => model.Email)
         @Html.TextBoxFor(model => model.Email, new { @class = "form-control", type = "email" })
         @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
     </div>
 
     <div class="form-group">
-        @Html.LabelFor(model => model.Address, new { @class = "control-label" })
+        @Html.LabelFor(model => model.Address)
         @Html.TextBoxFor(model => model.Address, new { @class = "form-control" })
         @Html.ValidationMessageFor(model => model.Address, "", new { @class = "text-danger" })
     </div>
 
     <div class="form-group">
-        @Html.LabelFor(model => model.ClientType, new { @class = "control-label" })
+        @Html.LabelFor(model => model.ClientType)
         @Html.DropDownListFor(model => model.ClientType, new SelectList(new[] { "Buyer", "Borrower" }), "Select Client Type", new { @class = "form-control" })
         @Html.ValidationMessageFor(model => model.ClientType, "", new { @class = "text-danger" })
     </div>
 
     <div class="form-group">
-        @Html.LabelFor(model => model.DateOfBirth, new { @class = "control-label" })
+        @Html.LabelFor(model => model.DateOfBirth)
         @Html.TextBoxFor(model => model.DateOfBirth, new { @class = "form-control", type = "date" })
         @Html.ValidationMessageFor(model => model.DateOfBirth, "", new { @class = "text-danger" })
     </div>
 
     <div class="form-group">
-        @Html.LabelFor(model => model.PhoneNumber, new { @class = "control-label" })
+        @Html.LabelFor(model => model.PhoneNumber)
         @Html.TextBoxFor(model => model.PhoneNumber, new { @class = "form-control", type = "tel" })
         @Html.ValidationMessageFor(model => model.PhoneNumber, "", new { @class = "text-danger" })
     </div>
 
     <div class="form-group">
-        <label for="plainPassword" class="control-label">Password</label>
+        <label for="plainPassword">Password</label>
         <input type="password" name="plainPassword" id="plainPassword" class="form-control" required />
         @if (ViewBag.PasswordError != null)
         {
@@ -55,9 +55,14 @@
         }
     </div>
 
-    <!-- Role hidden field -->
-    @Html.HiddenFor(model => model.Role, new { Value = "User" }) 
+    @Html.HiddenFor(model => model.Role, new { Value = "User" })
 
     <button type="submit" class="btn btn-primary">Sign Up</button>
 }
 
+<hr />
+
+<div class="text-center mt-3">
+    <p>Are you a seller?</p>
+    <a href="@Url.Action("SignUp", "Clients")" class="btn btn-warning">Register as Seller</a>
+</div>

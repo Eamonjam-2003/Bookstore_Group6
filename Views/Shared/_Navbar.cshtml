@@ -1,5 +1,24 @@
 ﻿@* Views/Shared/_Navbar.cshtml *@
-<nav class="navbar navbar-expand-sm navbar-dark bg-dark">
+<style>
+    .navbar-custom {
+        background-color: #5c4033; /* Brown */
+    }
+
+        .navbar-custom .nav-link,
+        .navbar-custom .navbar-brand,
+        .navbar-custom .navbar-text {
+            color: white !important;
+        }
+
+            .navbar-custom .nav-link:hover {
+                background-color: #7b5843;
+                color: white !important;
+                border-radius: 5px;
+                transition: 0.2s;
+            }
+</style>
+
+<nav class="navbar navbar-expand-sm navbar-custom">
     <div class="container">
         @Html.ActionLink("Book Haven", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
 
@@ -11,6 +30,11 @@
             <!-- Left-aligned links -->
             <ul class="navbar-nav me-auto">
                 <li class="nav-item">@Html.ActionLink("Books", "Index", "Books", null, new { @class = "nav-link" })</li>
+
+                @if (Session["UserRole"] != null && Session["UserRole"].ToString() == "Admin")
+                {
+                    <li class="nav-item">@Html.ActionLink("Admin Dashboard", "AdminDashboard", "Admin", null, new { @class = "nav-link" })</li>
+                }
             </ul>
 
             <!-- Right-aligned links -->
@@ -37,6 +61,3 @@
         </div>
     </div>
 </nav>
-
-
-

@@ -29,6 +29,17 @@
     @Html.ActionLink("Forgot your password?", "ForgotPassword", "BuyerBorrower")
 </p>
 
+<hr />
+
+<div class="text-center mt-3">
+    <p>Are you a seller?</p>
+    <a href="@Url.Action("Login", "Clients")" class="btn btn-warning text-dark" style="border-radius: 8px;">
+        Login as Seller
+    </a>
+</div>
+
+
+
 <div id="loginResult" class="mt-2 text-danger"></div>
 
 @section Scripts {
@@ -47,7 +58,7 @@
                     data: {
                         Email: email,
                         Password: password,
-                        RememberMe: rememberMe  // Sending RememberMe value
+                        RememberMe: rememberMe
                     },
                     success: function (response) {
                         if (response.success) {
@@ -64,5 +75,3 @@
         });
     </script>
 }
-
-

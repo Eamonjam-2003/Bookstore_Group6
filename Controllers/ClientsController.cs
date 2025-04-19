@@ -173,5 +173,25 @@ namespace Bookstore_Group6.Controllers
             return View();
         }
 
+        // POST: Clients/Login
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Login(string email, string password)
+        {
+            using (var db = new ApplicationDbContext())
+            {
+                var client = db.Clients.FirstOrDefault(c => c.Email == email && c.Password == password);
+                if (client != null)
+                {
+                    // Store ID in TempData or Session (depending on your needs)
+                    TempData["ClientId"] = client.Id;
+                    return RedirectToAction("ClientDashboard", new { id = client.Id });
+                }
+
+                ViewBag.Error = "Invalid email or password.";
+                return View();
+            }
+        }
+
     }
 }

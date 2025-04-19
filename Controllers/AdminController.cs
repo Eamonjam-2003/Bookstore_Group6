@@ -13,6 +13,7 @@ namespace Bookstore_Group6.Controllers
 
         [LoggedInOnly]
         [AdminOnly]
+
         public ActionResult AdminDashboard()
         {
             var buyers = db.BuyerBorrowers.ToList();
@@ -25,6 +26,7 @@ namespace Bookstore_Group6.Controllers
 
         [LoggedInOnly]
         [AdminOnly]
+
         [HttpPost]
         public ActionResult DeleteBuyer(int id)
         {
@@ -36,8 +38,10 @@ namespace Bookstore_Group6.Controllers
             }
             return RedirectToAction("AdminDashboard");
         }
+
         [LoggedInOnly]
         [AdminOnly]
+
         [HttpPost]
         public ActionResult DeleteClient(int id)
         {
